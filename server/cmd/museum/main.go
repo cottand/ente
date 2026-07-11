@@ -1143,6 +1143,7 @@ func setupDatabase() *sql.DB {
 	}
 	log.Println("Pinged DB")
 
+	// TODO make configurable
 	driver, err := cockroachdb.WithInstance(db, &cockroachdb.Config{})
 	if err != nil {
 		log.Panic(err)
