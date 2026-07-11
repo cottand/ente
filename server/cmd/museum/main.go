@@ -1150,7 +1150,7 @@ func setupDatabase() *sql.DB {
 		panic(err)
 	}
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://migrations", "postgres", driver)
+		"file://migrations", "cockroachdb", driver)
 	if err != nil {
 		log.Panic(err)
 		panic(err)
