@@ -17,6 +17,7 @@ import (
 	"github.com/ente/museum/pkg/controller/collections"
 	publicCtrl "github.com/ente/museum/pkg/controller/public"
 	"github.com/ente/museum/pkg/repo/public"
+	"github.com/golang-migrate/migrate/v4/database/cockroachdb"
 
 	"github.com/ente/museum/ente/base"
 	"github.com/ente/museum/pkg/controller/emergency"
@@ -79,7 +80,6 @@ import (
 	"github.com/gin-contrib/timeout"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
 	"github.com/patrickmn/go-cache"
@@ -1143,7 +1143,11 @@ func setupDatabase() *sql.DB {
 	}
 	log.Println("Pinged DB")
 
-	driver, _ := postgres.WithInstance(db, &postgres.Config{})
+	driver, err := cockroachdb.WithInstance(db, &cockroachdb.Config{})
+	if err != nil {
+		log.Panic(err)
+		panic(err)
+	}
 	m, err := migrate.NewWithDatabaseInstance(
 		"file://migrations", "postgres", driver)
 	if err != nil {
