@@ -17,14 +17,12 @@ jobs:
         steps:
             - name: Determine commit from prod museum
               run: |
-                  museum_commit="$(curl -s https://api.ente.com/ping | jq -r .id)"
+                  museum_commit="${{ github.sha }}"
                   [[ "${museum_commit}" =~ ^[0-9a-f]{40}$ ]]
                   echo "museum_commit=${museum_commit}" >> $GITHUB_ENV
 
-            - name: Checkout prod museum commit
+            - name: Checkout
               uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-              with:
-                  ref: ${{ env.museum_commit }}
 
             - name: Log in to GHCR
               env:

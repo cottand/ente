@@ -1143,6 +1143,8 @@ func setupDatabase() *sql.DB {
 	}
 	log.Println("Pinged DB")
 
+	log.Println("THIS IS NICO FORK")
+
 	// TODO make configurable
 	driver, err := cockroachdb.WithInstance(db, &cockroachdb.Config{})
 	if err != nil {
